@@ -1,4 +1,4 @@
-ARG     RUBY_VERSION="slim"
+ARG     RUBY_VERSION="latest"
 FROM    ruby:${RUBY_VERSION}
 
 ARG     DPL_VERSION=">= 1.10.15"
