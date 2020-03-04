@@ -23,11 +23,11 @@ script:
 
     set -xe
 
-    RUBY_PATCH_RELEASE_VERSION="$(docker run --rm --entrypoint /usr/bin/env -t ruby:slim /bin/bash -c 'ruby -v' | awk '{print $2}' | grep -o -P "^[0-9]+\.[0-9]+\.[0-9]+" | tr -d '\r')"
+    RUBY_PATCH_RELEASE_VERSION="$(docker run --rm --entrypoint /usr/bin/env -t ruby:latest /bin/bash -c 'ruby -v' | awk '{print $2}' | grep -o -P "^[0-9]+\.[0-9]+\.[0-9]+" | tr -d '\r')"
     RUBY_MINOR_RELEASE_VERSION="${RUBY_PATCH_RELEASE_VERSION%.*}"
     RUBY_MAJOR_RELEASE_VERSION="${RUBY_MINOR_RELEASE_VERSION%.*}"
 
-    DPL_PATCH_RELEASE_VERSION="$(docker run --rm --entrypoint /usr/bin/env -t ruby:slim /bin/bash -c 'gem search dpl | grep -E "^dpl\s+\(" | grep -o -P "[0-9]+\.[0-9]+\.[0-9]+"' | tr -d '\r')"
+    DPL_PATCH_RELEASE_VERSION="$(docker run --rm --entrypoint /usr/bin/env -t ruby:latest /bin/bash -c 'gem search dpl | grep -E "^dpl\s+\(" | grep -o -P "[0-9]+\.[0-9]+\.[0-9]+"' | tr -d '\r')"
     DPL_MINOR_RELEASE_VERSION="${DPL_PATCH_RELEASE_VERSION%.*}"
     DPL_MAJOR_RELEASE_VERSION="${DPL_MINOR_RELEASE_VERSION%.*}"
 
@@ -44,7 +44,7 @@ script:
     TAGS+=("${DPL_MAJOR_RELEASE_VERSION}-ruby${RUBY_MINOR_RELEASE_VERSION}")
     TAGS+=("${DPL_MAJOR_RELEASE_VERSION}-ruby${RUBY_MAJOR_RELEASE_VERSION}")
 
-    docker build -t "${IMAGE_NAME}:latest" --build-arg RUBY_VERSION="${RUBY_PATCH_RELEASE_VERSION}-slim" --build-arg DPL_VERSION="${DPL_PATCH_RELEASE_VERSION}" .
+    docker build -t "${IMAGE_NAME}:latest" --build-arg RUBY_VERSION="${RUBY_PATCH_RELEASE_VERSION}" --build-arg DPL_VERSION="${DPL_PATCH_RELEASE_VERSION}" .
 
     for TAG in "${TAGS[@]}" ; do
       docker tag "${IMAGE_NAME}:latest" "${IMAGE_NAME}:${TAG}"
