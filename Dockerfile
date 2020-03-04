@@ -8,6 +8,6 @@ RUN     set -x && \
         apt-get -qq update && \
         apt-get -qq install ruby-dev && \
         gem install dpl -v "${DPL_VERSION}" && \
-        apt-get autoremove -qq && \
-        apt-get autoclean -qq && \
+        apt-get -qq autoremove && \
+        apt-get -qq autoclean && \
         rm -rf /tmp/* /var/cache/* /var/apt/lists/*
