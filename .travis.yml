@@ -23,11 +23,11 @@ script:
 
     set -xe
 
-    RUBY_PATCH_RELEASE_VERSION="$(docker run --rm --entrypoint /usr/bin/env -t ruby:slim /bin/bash -c 'ruby -v' | awk '{print $2}' | grep -o -P "^[0-9]+\.[0-9]+\.[0-9]+")"
+    RUBY_PATCH_RELEASE_VERSION="$(docker run --rm --entrypoint /usr/bin/env -t ruby:slim /bin/bash -c 'ruby -v' | awk '{print $2}' | grep -o -P "^[0-9]+\.[0-9]+\.[0-9]+" | tr -d '\r')"
     RUBY_MINOR_RELEASE_VERSION="${RUBY_PATCH_RELEASE_VERSION%.*}"
     RUBY_MAJOR_RELEASE_VERSION="${RUBY_MINOR_RELEASE_VERSION%.*}"
 
-    DPL_PATCH_RELEASE_VERSION="$(docker run --rm --entrypoint /usr/bin/env -t ruby:slim /bin/bash -c 'gem search dpl | grep -E "^dpl\s+\(" | grep -o -P "[0-9]+\.[0-9]+\.[0-9]+"')"
+    DPL_PATCH_RELEASE_VERSION="$(docker run --rm --entrypoint /usr/bin/env -t ruby:slim /bin/bash -c 'gem search dpl | grep -E "^dpl\s+\(" | grep -o -P "[0-9]+\.[0-9]+\.[0-9]+"' | tr -d '\r')"
     DPL_MINOR_RELEASE_VERSION="${DPL_PATCH_RELEASE_VERSION%.*}"
     DPL_MAJOR_RELEASE_VERSION="${DPL_MINOR_RELEASE_VERSION%.*}"
 
